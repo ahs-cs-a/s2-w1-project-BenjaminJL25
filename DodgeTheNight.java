@@ -1,9 +1,12 @@
 import java.awt.*;
 import javax.swing.*;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Random;
 import java.util.ArrayList;
 import java.awt.event.*;
-
+import java.time.Duration;
+import java.time.Instant;
 public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionListener{
     public static void main(String[] args) {
         new DodgeTheNight();
@@ -19,7 +22,8 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
     boolean gameon = true;
     private int playerX;
     private int playerY;
-
+    private Instant start = Instant.now();
+    public int tick = 10;
 
     public DodgeTheNight() {
         initializeGame();
@@ -29,10 +33,29 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
         myFrame.setVisible(true);
         gameStart();
     }
-    public void gameStart() {
-        while (gameon){
-            System.out.println();
+    public void moveCreeps(double delta){
+        for (Creeps c: AllCreeps){
+            c.setX(c.getX() + (int)(c.getFinalx()/100*delta - c.getStartx()/100*delta));
+            c.setY(c.getY() + (int)(c.getFinaly()/100*delta - c.getStarty()/100*delta));
         }
+    }
+
+
+    public void gameStart() {
+//        while (gameon){
+//            int initInt = timeSec();
+//            double init = timeElapsed();
+//            System.out.println(timeSec());
+//            while (initInt == timeSec()) {
+//                delay(tick);
+//
+//                System.out.println(timeElapsed() - init);
+//                moveCreeps(timeElapsed() - init);
+//                repaint();
+//                System.out.println(playerX + "d" + playerY);
+//                init = timeElapsed();
+//            }
+//        }
     }
     public void initializeGame() {
 
@@ -43,6 +66,8 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
     public void mouseMoved(MouseEvent event){
         this.playerX = event.getX();
         this.playerY = event.getY();
+
+        System.out.println("moved");
         repaint();
     }
 
@@ -59,8 +84,21 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
     public void mouseExited (MouseEvent event) {
     }
     public void paintComponent(Graphics g){
+        g.drawRect(10, 10, 100, 100);
+    }
 
-}
+    public double timeElapsed(){
+        Instant end = Instant.now();
+
+        // Calculate the elapsed time in seconds
+        Duration elapsedTime = Duration.between(start, end);
+        return elapsedTime.getNano() * 1.0 /  1000000000 + elapsedTime.getSeconds();
+    }
+    public int timeSec(){
+        Instant end = Instant.now();
+        Duration elapsedTime = Duration.between(start, end);
+        return (int)elapsedTime.getSeconds();
+    }
     private void delay(int ms) {
         try {
             Thread.sleep(ms);
