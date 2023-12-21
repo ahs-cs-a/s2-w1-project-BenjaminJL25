@@ -39,6 +39,7 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
         Image cursorImage=Toolkit.getDefaultToolkit().createImage(imageByte);
         myFrame.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(cursorImage,myPoint,"cursor"));
     }
+    // https://www.sanfoundry.com/java-program-create-transparent-cursor/
     public void center() {
         try {
             Robot robot = new Robot();
@@ -48,6 +49,7 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
             e.printStackTrace();
         }
     }
+    //https://www.geeksforgeeks.org/robot-class-java-awt/
     private void delay(int ms) {
         try {
             Thread.sleep(ms);
@@ -55,7 +57,15 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
             ex.printStackTrace();
         }
     }
+
+
+
     // I didn't write the functions above this because it's stuff I don't quite understand or just never uesed or why reinvent the wheel
+    public int timeSec(){
+        Instant end = Instant.now();
+        Duration elapsedTime = Duration.between(start, end);
+        return (int)elapsedTime.getSeconds();
+    }
     public void updateGameState() {
         if (lives < 1)
             gameQuit();
@@ -82,18 +92,7 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
             c.setTotaly(c.getTotaly() + (c.getFinaly() * 1.0 / 500 - c.getStarty() * 1.0 / 500));
         }
     }
-    public double timeElapsed(){
-        Instant end = Instant.now();
 
-        // Calculate the elapsed time in seconds
-        Duration elapsedTime = Duration.between(start, end);
-        return elapsedTime.getNano() * 1.0 /  1000000000 + elapsedTime.getSeconds();
-    }
-    public int timeSec(){
-        Instant end = Instant.now();
-        Duration elapsedTime = Duration.between(start, end);
-        return (int)elapsedTime.getSeconds();
-    }
     public void checkTouch(){
         int i = 0;
         int remove = -1;

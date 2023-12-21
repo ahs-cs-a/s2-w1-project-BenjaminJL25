@@ -25,26 +25,29 @@ public class LeaderBored {
     public String getName() {
         return name;
     }
-
+    //https://www.programiz.com/java-programming/bufferedwriter
     public static void writeToTextFile(String content, String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             writer.write(content);
             writer.newLine();
-            System.out.println("Content has been written to the file.");
         } catch (IOException e) {
             System.err.println("Error writing to the file: " + e.getMessage());
         }
     }
+    //
     public void leadershow(int scre){
+//        I just copied the format from like virtual pet
         String s = (String) JOptionPane.showInputDialog(
                 new JFrame(),
                 "Enter your name",
                 "Your Name",
                 JOptionPane.PLAIN_MESSAGE
         );
+        //
         writeToTextFile(s + "F2♣☻36☺♦58•9421s¡♦7♣" + scre, "localLeaderboard");
         readfile();
         sortArrayList();
+        // https://www.javatpoint.com/java-jlist
         JFrame frame = new JFrame("Scrollable List Example");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300, 200);
@@ -54,9 +57,11 @@ public class LeaderBored {
             listModel.addElement(i + " | " +item.getName() + " | " + item.getScore() + " points");
             i++;
         }
+
         JList<String> jList = new JList<>(listModel);
         JScrollPane scrollPane = new JScrollPane(jList);
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+        //
         frame.setVisible(true);
     }
     public void sortArrayList() {
