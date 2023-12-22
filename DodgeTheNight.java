@@ -17,7 +17,7 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
     ArrayList<Creeps> allCreeps = new ArrayList<>();
     ArrayList<Coin> Coins = new ArrayList<>();
     ArrayList<water> waves = new ArrayList<>();
-
+    ArrayList<water> extraLives = new ArrayList<>();
 
     private JFrame myFrame;
     private int lives = 3;
@@ -119,12 +119,28 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
         }
         int wRemove = -1;
         int wI = 0;
+//        int drowningTime = 0;
+        int drownedToDeath = 0;
         for (water d: waves){
-            if (23 > Math.sqrt((d.getX() - this.playerX) * (d.getX() - this.playerX) + (d.getY() - this.playerY) * (d.getY() - this.playerY))) {
+            if (23 > Math.sqrt((d.getX() - this.playerX) * (d.getX() - this.playerX) + (d.getY() - this.playerY) * (d.getY() - this.playerY))){
+                drownedToDeath++;
+            }
+            if(drownedToDeath > 5){
                 this.lives--;
                 wRemove = wI;
             }
             wI++;
+            int eRemove = -1;
+            int eI = 0;
+            for (extraLife E: extraLives){
+                if (25 > Math.sqrt((E.getX() - this.playerX) * (E.getX() - this.playerX) + (E.getY() - this.playerY) * (E.getY() - this.playerY)))
+                    eRemove = eI;
+                eI++;
+            }
+            if (eRemove != -1) {
+                Coins.remove(eRemove);
+                lives++;
+            }
         }
         if (wRemove != -1)
             waves.remove(wRemove);
@@ -154,12 +170,15 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
             Coins.add(new Coin());
         while(waves.size() < curDif / 2) //adds water
             waves.add(new water());
+        while(curDif % 3 == 2)
+            extraLives.add(new extraLife());
         while (allCreeps.size() < maxBaddies)
             allCreeps.add(new Creeps());
         updateGameState();
         updateBackdrop(g);
         updateSprites(g);
         updateDangerZones(g);
+        updateHealth(g);
         updateCreeps(g);
         updatePlayer(g);
         updateWeather(g);
@@ -184,8 +203,11 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
             G.fillRect(n.getX(),n.getY(),25,15);
         }
     }
-    public void extraLife(Graphics G){
-    //    for()
+    public void updateHealth(Graphics G){
+        for (extraLife n: extraLives){
+            G.setColor(Color.cyan);
+            G.fillOval(n.getX(), n.getY(), 25, 20);
+        }
     }
     public void updateCreeps(Graphics G){
         moveCreeps();
@@ -226,6 +248,10 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
             for (water n: waves){
                 G.setColor(Color.BLUE);
                 G.drawOval(n.getX(),n.getY(),25, 15);
+            }
+            for (extraLife n: extraLives){
+                G.setColor(Color.yellow);
+                G.drawArc(n.getX()-12, n.getY()+13, n.getX()+13);
             }
             for (Coin n: Coins){
                 G.setColor(Color.yellow);
