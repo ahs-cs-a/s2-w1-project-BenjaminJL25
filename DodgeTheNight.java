@@ -17,7 +17,7 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
     ArrayList<Creeps> allCreeps = new ArrayList<>();
     ArrayList<Coin> Coins = new ArrayList<>();
     ArrayList<water> waves = new ArrayList<>();
-    ArrayList<water> extraLives = new ArrayList<>();
+    ArrayList<extraLife> extraLives = new ArrayList<>();
 
     private JFrame myFrame;
     private int lives = 3;
@@ -32,6 +32,8 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
     public int score = 0;
     private boolean started = false;
     private int curDif = 1;
+    private int cX;
+    private int cY;
     private LeaderBored l = new LeaderBored();
     public void removeCursor(){
         byte[]imageByte=new byte[0];
@@ -153,7 +155,7 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
         myFrame.setVisible(true);
         addMouseListener(this);
         initializeGame();
-        removeCursor();
+        //removeCursor();
         addMouseMotionListener(this);
     }
     public void initializeGame() {
@@ -170,8 +172,8 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
             Coins.add(new Coin());
         while(waves.size() < curDif / 2) //adds water
             waves.add(new water());
-        while(curDif % 3 == 2)
-            extraLives.add(new extraLife());
+//        while(curDif % 3 == 2)
+//            extraLives.add(new extraLife());
         while (allCreeps.size() < maxBaddies)
             allCreeps.add(new Creeps());
         updateGameState();
@@ -251,7 +253,7 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
             }
             for (extraLife n: extraLives){
                 G.setColor(Color.yellow);
-                G.drawArc(n.getX()-12, n.getY()+13, n.getX()+13);
+//                G.drawArc(n.getX()-12, n.getY()+13, n.getX()+13, n.getY()+13);
             }
             for (Coin n: Coins){
                 G.setColor(Color.yellow);
@@ -273,9 +275,12 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
         center();
     }
     public void mouseMoved(MouseEvent event){
-        this.playerX += event.getX() - 343;
-        this.playerY += event.getY() - 320;
+        this.playerX += event.getX() - (cX);
+        this.playerY += event.getY() - (cY);
+        System.out.println(event.getX());
+        System.out.println((myFrame.getWidth())/2);
         center();
+        System.out.println(event.getX());
         if (playerY > 640)
             playerY = 640;
         if (playerY < 0)
@@ -289,13 +294,18 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
     }
     public void mouseDragged(MouseEvent e){ }
     public void mouseReleased (MouseEvent event) {
+        cX = event.getX();
+        cY = event.getY();
     }
     public void mousePressed (MouseEvent event) {
+        center();
     }
     public void mouseEntered (MouseEvent event) {
         center();
     }
     public void mouseExited (MouseEvent event) {
+        center();
+
     }
     public void gameQuit(){
         myFrame.hide();
