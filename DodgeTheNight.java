@@ -16,6 +16,7 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
     }
     ArrayList<Creeps> allCreeps = new ArrayList<>();
     ArrayList<Coin> Coins = new ArrayList<>();
+    ArrayList<water> waves = new ArrayList<>();
 
 
     private JFrame myFrame;
@@ -116,6 +117,17 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
             Coins.remove(cRemove);
             score++;
         }
+        int wRemove = -1;
+        int wI = 0;
+        for (water d: waves){
+            if (23 > Math.sqrt((d.getX() - this.playerX) * (d.getX() - this.playerX) + (d.getY() - this.playerY) * (d.getY() - this.playerY))) {
+                this.lives--;
+                wRemove = wI;
+            }
+            wI++;
+        }
+        if (wRemove != -1)
+            waves.remove(wRemove);
     }
     // Logic functions ^^^^
     public DodgeTheNight() {
@@ -140,6 +152,8 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
     public void paintComponent(Graphics g){
         while (Coins.size() < 3)
             Coins.add(new Coin());
+        while(waves.size() < curDif / 2) //adds water
+            waves.add(new water());
         while (allCreeps.size() < maxBaddies)
             allCreeps.add(new Creeps());
         updateGameState();
@@ -165,7 +179,13 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
         }
     }
     public void updateDangerZones(Graphics G){
-
+        for (water n: waves){
+            G.setColor(Color.blue);
+            G.fillRect(n.getX(),n.getY(),25,15);
+        }
+    }
+    public void extraLife(Graphics G){
+    //    for()
     }
     public void updateCreeps(Graphics G){
         moveCreeps();
@@ -202,6 +222,10 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
                 int[] yPoints = {6 + y,0 + y,6 + y,0 + y,6 + y,16 + y};
                 G.drawPolygon(xPoints, yPoints, 6);
                 i++;
+            }
+            for (water n: waves){
+                G.setColor(Color.BLUE);
+                G.drawOval(n.getX(),n.getY(),25, 15);
             }
             for (Coin n: Coins){
                 G.setColor(Color.yellow);
