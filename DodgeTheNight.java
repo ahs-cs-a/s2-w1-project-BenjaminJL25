@@ -3,13 +3,9 @@ import javax.swing.*;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
-import java.util.Random;
 import java.util.ArrayList;
 import java.awt.event.*;
-import java.awt.Robot;
-import java.awt.AWTException;
-import java.time.Duration;
-import java.time.Instant;
+
 public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionListener{
     public static void main(String[] args) {
         new DodgeTheNight();
@@ -64,14 +60,11 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
             ex.printStackTrace();
         }
     }
-
-
-
     // I didn't write the functions above this because it's stuff I don't quite understand or just never uesed or why reinvent the wheel
     public int timeNano(){
         Instant end = Instant.now();
         Duration elapsedTime = Duration.between(start, end);
-        return elapsedTime.getNano();
+        return elapsedTime.getNano() / 1000;
     }
     public int timeSec(){
         Instant end = Instant.now();
@@ -95,7 +88,7 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
         }
         if (started) {
             maxBaddies = 5 + timeSec() / 20;
-            curDif = 5 + timeSec() / 20;
+            curDif = 1 + timeSec() / 20;
         }
         if (this.whenNextLife < timeSec()){
             extraLives.add(new extraLife());
@@ -108,7 +101,6 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
             c.setTotaly(c.getTotaly() + (c.getFinaly() * 1.0 / 500 - c.getStarty() * 1.0 / 500));
         }
     }
-
     public void checkTouch(){
         int i = 0;
         int remove = -1;
@@ -139,13 +131,15 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
         for (water d: waves){
             if (23 > Math.sqrt((d.getX() - this.playerX) * (d.getX() - this.playerX) + (d.getY() - this.playerY) * (d.getY() - this.playerY))){
                 if (this.wasInWater){
-                    this.drownSec += timeSec() - this.lastTick;
+                    this.drownSec += (timeNano() + timeSec() / 10 * 1000000) - this.lastTick;
+                    System.out.println(this.lastTick);
+                    System.out.println(timeNano() + timeSec() / 10 * 1000000);
                 }
                 this.wasInWater = true;
                 f = true;
-                System.out.println("touching water");
+
             }
-            if(this.drownSec > 5){
+            if(this.drownSec > 500000){
                 this.lives--;
                 this.drownSec = 0;
             }
@@ -208,7 +202,7 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
         }
         updateHUD(g);
         if (this.started)
-            this.lastTick = timeSec();
+            this.lastTick = timeNano() + timeSec() / 10 * 1000000 ;
     }
 
     public void updateBackdrop(Graphics G){
@@ -266,10 +260,13 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
         if (this.started) {
             G.setColor(Color.white);
             G.drawString("Score " + Integer.toString(this.score), 350, 50);
-            G.drawString("Oxygen Bar", 600, 20);
+            G.drawString("Oxygen Bar", 550, 20);
             G.drawString("Current Difficulty " + this.curDif, 320, 70);
             G.setColor(Color.blue);
-            G.fillRect(560, 50, 120 * ((5-this.drownSec)/5), 16);
+            G.fillRect(500, 50, (int) (180 * ((500000-this.drownSec)/500000.0)), 16);
+            System.out.println((500000 - this.drownSec)/500000);
+            System.out.println(drownSec);
+            System.out.println(lastTick);
             int i = 0;
             while (i < this.lives){
                 G.setColor(Color.red);
