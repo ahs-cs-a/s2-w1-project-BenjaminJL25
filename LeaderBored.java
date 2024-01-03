@@ -7,6 +7,10 @@ import java.util.*;
 import java.awt.*;
 import java.io.File;
 public class LeaderBored {
+    public static void main(String[] args) {
+        LeaderBored f = new LeaderBored();
+        f.display();
+    }
     private String name;
     private int score;
     ArrayList<LeaderBored> leadb = new ArrayList<>();
@@ -44,8 +48,11 @@ public class LeaderBored {
                 JOptionPane.PLAIN_MESSAGE
         );
         //
-        writeToTextFile(s + "F2♣☻36☺♦58•9421s¡♦7♣" + scre, "localLeaderboard");
-        readfile();
+        writeToTextFile(s + "56766857575855767455" + scre, "localLeaderboard");
+        display();
+    }
+    public void display(){
+                readfile();
         sortArrayList();
         // https://www.javatpoint.com/java-jlist
         JFrame frame = new JFrame("Scrollable List Example");
@@ -86,7 +93,7 @@ public class LeaderBored {
             Scanner scan = new Scanner(f);
             while (scan.hasNextLine()){
                 String Data = scan.nextLine();
-                int i = Data.indexOf("F2♣☻36☺♦58•9421s¡♦7♣");
+                int i = Data.indexOf("56766857575855767455");
                 int p = Integer.parseInt(Data.substring(i+20));
                 leadb.add(new LeaderBored(Data.substring(0,i), p));
 

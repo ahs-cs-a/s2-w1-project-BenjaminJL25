@@ -14,18 +14,30 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 public class test {
-    public static void main(String[] args) {
-        test t = new test();
-        t.writeToTextFile("wjei123", "localLeaderboard.txt");
+    // public static void main(String[] args) {
+    //     test t = new test();
+    //     t.writeToTextFile("wjei123", "localLeaderboard.txt");
+    // }
+    // public static void writeToTextFile(String content, String filePath) {
+    //     try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+    //         writer.write(content);
+    //         writer.newLine();
+    //         System.out.println("Content has been written to the file.");
+    //     } catch (IOException e) {
+    //         System.err.println("Error writing to the file: " + e.getMessage());
+    //     }
+    // }
+    private Instant start;
+
+    public int timeNano(){
+        Instant end = Instant.now();
+        Duration elapsedTime = Duration.between(start, end);
+        return elapsedTime.getNano() / 1000;
     }
-    public static void writeToTextFile(String content, String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            writer.write(content);
-            writer.newLine();
-            System.out.println("Content has been written to the file.");
-        } catch (IOException e) {
-            System.err.println("Error writing to the file: " + e.getMessage());
-        }
+    public int timeSec(){
+        Instant end = Instant.now();
+        Duration elapsedTime = Duration.between(start, end);
+        return (int)elapsedTime.getSeconds();
     }
 
 }
