@@ -129,8 +129,10 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
 //        int drownedToDeath = 0;
         boolean f = false;
         for (water d: waves){
-            if (23 > Math.sqrt((d.getX() - this.playerX) * (d.getX() - this.playerX) + (d.getY() - this.playerY) * (d.getY() - this.playerY))){
+            if (87 > Math.sqrt((d.getX() - this.playerX) * (d.getX() - this.playerX) + (d.getY() - this.playerY) * (d.getY() - this.playerY))){
                 if (this.wasInWater){
+                    if(this.drownSec < 0)
+                        this.drownSec = 0;
                     this.drownSec += (timeNano() + timeSec() / 10 * 1000000) - this.lastTick;
                     System.out.println(this.lastTick);
                     System.out.println(timeNano() + timeSec() / 10 * 1000000);
@@ -226,7 +228,7 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
     public void updateDangerZones(Graphics G){
         for (water n: waves){
             G.setColor(Color.blue);
-            G.fillOval(n.getX(),n.getY(),225,175);
+            G.fillOval(n.getX()-112,n.getY() - 88,225,175);
         }
     }
     public void updateHealth(Graphics G){
@@ -279,7 +281,7 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
             }
             for (water n: waves){
                 G.setColor(Color.BLUE);
-                G.drawOval(n.getX(),n.getY(),225, 175);
+                G.drawOval(n.getX() - 112,n.getY()-88,225, 175);
             }
             for (Coin n: Coins){
                 G.setColor(Color.yellow);
