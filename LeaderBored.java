@@ -32,8 +32,9 @@ public class LeaderBored {
     //https://www.programiz.com/java-programming/bufferedwriter
     public static void writeToTextFile(String content, String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            writer.write(content);
             writer.newLine();
+            writer.write(content);
+
         } catch (IOException e) {
             System.err.println("Error writing to the file: " + e.getMessage());
         }

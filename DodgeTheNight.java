@@ -218,6 +218,7 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
             G.fillRect(n.getX(),n.getY(),20,20);
         }
         for (extraLife n: extraLives){
+            
             G.setColor(Color.gray);
             int[] xPoints = {0 + n.getX(),6 + n.getX(),12 + n.getX(),18 + n.getX(),24 + n.getX(),12 + n.getX()};
             int[] yPoints = {6 + n.getY(),0 + n.getY(),6 + n.getY(),0 + n.getY(),6 + n.getY(),16 + n.getY()};
