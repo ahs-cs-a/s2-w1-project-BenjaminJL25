@@ -72,9 +72,9 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
         return (int)elapsedTime.getSeconds();
     }
     public void updateGameState() {
-        if(this.drownSec < 0){
-            this.drownSec = 0;
-        }
+//        if(this.drownSec < 0){
+//            this.drownSec = 0;
+//        }
         if (lives < 1)
             gameQuit();
         List<Integer> todie = new ArrayList<>();
