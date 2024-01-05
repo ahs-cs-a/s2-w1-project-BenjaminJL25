@@ -72,6 +72,9 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
         return (int)elapsedTime.getSeconds();
     }
     public void updateGameState() {
+        if(this.drownSec < 0){
+            this.drownSec = 0;
+        }
         if (lives < 1)
             gameQuit();
         List<Integer> todie = new ArrayList<>();
@@ -101,11 +104,11 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
             c.setTotaly(c.getTotaly() + (c.getFinaly() * 1.0 / 500 - c.getStarty() * 1.0 / 500));
         }
     }
-    public void checkTouch(){
+    public void checkTouch(int x){
         int i = 0;
         int remove = -1;
         for (Creeps c: allCreeps){
-            if (c.getDiameter() / 2 + 15 > Math.sqrt((c.getStartx()+c.getTotalx()-this.playerX)*(c.getStartx()+c.getTotalx()-this.playerX)+(c.getStarty()+c.getTotaly()-this.playerY)*(c.getStarty()+c.getTotaly()-this.playerY))){
+            if (c.getDiameter() / 2 + 15 > Math.sqrt((c.getStartx()+c.getTotalx()-x)*(c.getStartx()+c.getTotalx()-x)+(c.getStarty()+c.getTotaly()-this.playerY)*(c.getStarty()+c.getTotaly()-this.playerY))){
                 this.lives--;
                 remove = i;
             }
@@ -317,7 +320,8 @@ public class DodgeTheNight extends JPanel implements MouseListener,MouseMotionLi
             playerX = 670;
         if (playerX < 0)
             playerX = 0;
-        checkTouch();
+        checkTouch(this.playerX);
+        checkTouch(this.playerX+1);
         repaint();
     }
     public void mouseDragged(MouseEvent e){
